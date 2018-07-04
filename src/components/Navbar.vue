@@ -5,7 +5,7 @@
       <router-link class="navbar-brand" :to="{ path: '/'}">
         Dj-Blog
       </router-link>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-collape navbar-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
           <i class="fa fa-bars"></i>
       </button>

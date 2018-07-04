@@ -139,7 +139,7 @@ export default {
     fetchArticlesData: function () {
       axios({
         method: 'get',
-        url: `http://localhost:3000/articles/${this.id}`
+        url: `http://blog-server.unguhiu.com/articles/${this.id}`
       }).then(data => {
         this.article = data.data.data
         this.titleArticle = this.article.title
@@ -155,7 +155,7 @@ export default {
       return moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
     },
     addComment: function () {
-      axios.put(`http://localhost:3000/articles/${this.id}`, {
+      axios.put(`http://blog-server.unguhiu.com/articles/${this.id}`, {
         id: this.id,
         comments: this.newComment
       }).then(data => {
@@ -188,7 +188,7 @@ export default {
     deteleArticle: function () {
       axios({
         method: 'delete',
-        url: `http://localhost:3000/articles/${this.id}`
+        url: `http://blog-server.unguhiu.com/articles/${this.id}`
       }).then(data => {
         console.log(data, '====delete.......')
         this.$store.dispatch('getArticles')

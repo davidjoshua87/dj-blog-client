@@ -73,7 +73,7 @@ export default {
     fetchArticlesData: function() {
       axios({
         method: "get",
-        url: "http://localhost:3000/articles"
+        url: "http://blog-server.unguhiu.com/articles"
       })
         .then(data => {
           this.articles = data.data.data.map(val => val);
