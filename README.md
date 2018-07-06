@@ -1,3 +1,3 @@
 # dj-blog-client
 
-http://blog.unguhiu.com/#/ggit
+http://blog.unguhiu.com/#/
