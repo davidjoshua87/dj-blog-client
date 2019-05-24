@@ -11,35 +11,36 @@ import Profile from '@/components/Profile'
 Vue.use(Router)
 
 export default new Router({
-  routes: [{
-    path: '/masuk',
-    name: 'SignIn',
-    component: SignIn
-  }, {
-    path: '/daftar',
-    name: 'Daftar',
-    component: SignUp
-  }, {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile
-  },
-  {
-    path: '/',
-    component: Home,
-    children: [{
-      path: 'article/:id',
-      name: 'ArticleMain',
-      props: true,
-      component: ArticleMain
-    }, {
-      path: 'edit/:id',
-      name: 'EditPost',
-      component: EditPost
-    }, {
-      path: '/',
-      name: 'ArticleList',
-      component: ArticleList
-    }]
-  }]
+    routes: [{
+            path: '/masuk',
+            name: 'SignIn',
+            component: SignIn
+        }, {
+            path: '/daftar',
+            name: 'Daftar',
+            component: SignUp
+        }, {
+            path: '/profile',
+            name: 'Profile',
+            component: Profile
+        },
+        {
+            path: '/',
+            component: Home,
+            children: [{
+                path: 'article/:id',
+                name: 'ArticleMain',
+                props: true,
+                component: ArticleMain
+            }, {
+                path: 'edit/:id',
+                name: 'EditPost',
+                component: EditPost
+            }, {
+                path: '/',
+                name: 'ArticleList',
+                component: ArticleList
+            }]
+        }
+    ]
 })
