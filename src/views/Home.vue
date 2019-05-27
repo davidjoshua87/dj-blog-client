@@ -24,7 +24,7 @@
 
 <style>
     .masthead {
-        margin-top: 61px;
+        margin-top: 20px;
         margin-bottom: 50px;
         height: 380px;
         background-image: url('../assets/bg.jpg') !important;
@@ -36,12 +36,6 @@
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-    }
-
-    @media only screen and (max-width: 768px) {
-        .masthead {
-            margin-top: 183px;
-        }
     }
 
     header.masthead .overlay {

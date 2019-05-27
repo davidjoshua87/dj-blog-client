@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import swal from 'sweetalert2'
+import router from './router'
 
 Vue.use(Vuex)
 
@@ -47,13 +49,26 @@ export default new Vuex.Store({
                     password: payload.password
                 }
             }).then(response => {
-                // console.log(`Response Login : ${JSON.stringify(response)}`)
-                localStorage.setItem('token', response.data.data.token)
-                localStorage.setItem('id', response.data.data.id)
-                localStorage.setItem('name', response.data.data.name)
-                localStorage.setItem('username', response.data.data.username)
-                localStorage.setItem('email', response.data.data.email)
-                context.commit('updateUser')
+
+                if (response.data.message !== 'Sign in succesful') {
+                    swal.fire({
+                        type: 'warning',
+                        text: response.data.message
+                    })
+                } else {
+                    swal.fire({
+                        type: 'success',
+                        text: response.data.message
+                    }).then((next) => {
+                        window.location.href = ('/')
+                        localStorage.setItem('token', response.data.data.token)
+                        localStorage.setItem('id', response.data.data.id)
+                        localStorage.setItem('name', response.data.data.name)
+                        localStorage.setItem('username', response.data.data.username)
+                        localStorage.setItem('email', response.data.data.email)
+                        context.commit('updateUser')
+                    })
+                }
             })
         },
         emitSignup: function (context, payload) {
@@ -67,13 +82,26 @@ export default new Vuex.Store({
                     name: payload.name
                 }
             }).then(response => {
-                // console.log(`Response Signup : ${JSON.stringify(response)}`)
-                localStorage.setItem('token', response.data.token)
-                localStorage.setItem('id', response.data.id)
-                localStorage.setItem('name', response.data.name)
-                localStorage.setItem('username', response.data.username)
-                localStorage.setItem('email', response.data.email)
-                context.commit('updateUser')
+
+                if (response.data.message !== 'User succesfully created') {
+                    swal.fire({
+                        type: 'warning',
+                        text: response.data.message
+                    })
+                } else {
+                    swal.fire({
+                        type: 'success',
+                        text: response.data.message
+                    }).then((next) => {
+                        window.location.href = ('/')
+                        localStorage.setItem('token', response.data.token)
+                        localStorage.setItem('id', response.data.id)
+                        localStorage.setItem('name', response.data.name)
+                        localStorage.setItem('username', response.data.username)
+                        localStorage.setItem('email', response.data.email)
+                        context.commit('updateUser')
+                    })
+                }
             })
         },
         getSearch: function (context, payload) {
@@ -104,8 +132,20 @@ export default new Vuex.Store({
                     content: payload.content
                 }
             }).then(response => {
-                console.log('success add new post')
-                context.dispatch('getArticles')
+                if (response.data.message !== 'Successfully add new article') {
+                    swal.fire({
+                        type: 'warning',
+                        text: response.data.message
+                    })
+                } else {
+                    swal.fire({
+                        type: 'success',
+                        text: response.data.message
+                    }).then((next) => {
+                        window.location.href = ('/')
+                        context.dispatch('getArticles')
+                    })
+                }
             })
         },
         emitEdit: function (context, payload) {
@@ -117,8 +157,66 @@ export default new Vuex.Store({
                     content: payload.content
                 }
             }).then(response => {
-                console.log('success edit new post')
-                context.dispatch('getArticles')
+                if (response.data.message !== 'Articles fields have been updated') {
+                    swal.fire({
+                        type: 'warning',
+                        text: response.data.message
+                    })
+                } else {
+                    swal.fire({
+                        type: 'success',
+                        text: response.data.message
+                    }).then((next) => {
+                        window.location.href = ('/')
+                        context.dispatch('getArticles')
+                    })
+                }
+            })
+        },
+        deleteArticle: function (context, payload) {
+            $axios({
+                method: 'delete',
+                url: '/articles/' + payload.id
+            }).then(response => {
+                if (response.data.message !== 'Successfully deleted articles') {
+                    swal.fire({
+                        type: 'warning',
+                        text: response.data.message
+                    })
+                } else {
+                    swal.fire({
+                        type: 'success',
+                        text: response.data.message
+                    }).then((next) => {
+                        window.location.href = ('/')
+                        context.dispatch('getArticles')
+                    })
+                }
+            })
+        },
+        addComment: function (context, payload) {
+            $axios({
+                method: 'put',
+                url: '/articles/' + payload.id,
+                data: {
+                    comment: payload.comment,
+                    author: payload.author
+                }
+            }).then(response => {
+                if (response.data.message !== 'Add comment to article success') {
+                    swal.fire({
+                        type: 'warning',
+                        text: response.data.message
+                    })
+                } else {
+                    swal.fire({
+                        type: 'success',
+                        text: response.data.message
+                    }).then((next) => {
+                        window.location.href = ('/')
+                        context.dispatch('getArticles')
+                    })
+                }
             })
         },
         clearUser: function (context) {

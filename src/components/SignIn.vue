@@ -9,14 +9,13 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <input class="form-control" placeholder="E-mail" name="email" type="text"
-                                v-model="loginData.email">
+                            <input class="form-control" placeholder="E-mail" name="email" type="text" v-model="email">
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Password" name="password" type="password"
-                                v-model="loginData.password">
+                                v-model="password">
                         </div>
-                        <input class="btn btn-lg btn-success btn-block" type="submit" value="Login" @click="emitLogin">
+                        <input class="btn btn-lg btn-success btn-block" type="submit" value="Login" @click="login">
                     </div>
                 </div>
             </div>
@@ -35,25 +34,21 @@
         },
         data() {
             return {
-                loginData: {
-                    email: '',
-                    password: ''
-                }
+                email: '',
+                password: ''
             }
         },
         methods: {
-            emitLogin: function () {
-                this.$store.dispatch('emitLogin', this.loginData)
-                this.loginData.email = ''
-                this.loginData.password = ''
-                this.$router.push({
-                    path: '/'
-                })
-                swal(
-                    'Good job!',
-                    'You are loggin now!',
-                    'success'
-                )
+            login() {
+                let email = this.email
+                let password = this.password
+                let loginData = {
+                    email: email,
+                    password: password
+                }
+                this.$store.dispatch('emitLogin', loginData)
+                this.email = ''
+                this.password = ''
             }
         }
     }

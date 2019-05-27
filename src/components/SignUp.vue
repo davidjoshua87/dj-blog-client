@@ -9,23 +9,20 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <input class="form-control" placeholder="Name" name="name" type="text"
-                                v-model="signUpData.name">
+                            <input class="form-control" placeholder="Name" name="name" type="text" v-model="name">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="E-mail" name="email" type="text"
-                                v-model="signUpData.email">
+                            <input class="form-control" placeholder="E-mail" name="email" type="text" v-model="email">
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Username" name="username" type="text"
-                                v-model="signUpData.username">
+                                v-model="username">
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="Password" name="password" type="password"
-                                v-model="signUpData.password">
+                                v-model="password">
                         </div>
-                        <input class="btn btn-lg btn-success btn-block" type="submit" value="Signup"
-                            @click="emitSignup">
+                        <input class="btn btn-lg btn-success btn-block" type="submit" value="Signup" @click="signup">
                     </div>
                 </div>
             </div>
@@ -44,30 +41,30 @@
         },
         data() {
             return {
-                signUpData: {
-                    email: '',
-                    password: '',
-                    username: '',
-                    name: ''
-                }
+                email: '',
+                password: '',
+                username: '',
+                name: ''
             }
         },
         methods: {
-            emitSignup: function () {
-                console.log(this.signUpData)
-                this.$store.dispatch('emitSignup', this.signUpData)
-                this.signUpData.email = ''
-                this.signUpData.password = ''
-                this.signUpData.name = ''
-                this.signUpData.username = ''
-                this.$router.push({
-                    path: '/'
-                })
-                swal(
-                    'Good job!',
-                    'You are have account now!',
-                    'success'
-                )
+            signup: function () {
+                let email = this.email
+                let password = this.password
+                let username = this.username
+                let name = this.name
+                let signUpData = {
+                    email: email,
+                    password: password,
+                    username: username,
+                    name: name
+
+                }
+                this.$store.dispatch('emitSignup', signUpData)
+                this.email = ''
+                this.password = ''
+                this.name = ''
+                this.username = ''
             }
         }
     }

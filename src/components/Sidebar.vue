@@ -56,7 +56,8 @@
     }
 
     .sidenav a:hover {
-        color: #f1f1f1;
+        color: black;
+        font-weight: 500;
     }
 
     @media screen and (max-height: 450px) {

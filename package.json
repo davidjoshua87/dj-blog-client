@@ -1,5 +1,5 @@
 {
-    "name": "dj-blog-client",
+    "name": "dj-blog",
     "version": "0.1.0",
     "private": true,
     "scripts": {
@@ -8,7 +8,7 @@
         "lint": "vue-cli-service lint"
     },
     "dependencies": {
-        "@tinymce/tinymce-vue": "^2.0.0",
+        "@tinymce/tinymce-vue": "^1.0.8",
         "axios": "^0.18.0",
         "i": "^0.3.6",
         "moment": "^2.24.0",

@@ -10,100 +10,99 @@
                          <p>
                              <span v-html="contentArticle"></span>
                          </p>
-                         <div>
+                         <div v-if="articleComment.length > 0">
                              <hr>
-                             <h4 class="modal-title">Comment</h4>
+                             <h4 class="modal-title" >Comment</h4>
                              <hr>
-                             <div class="scrolling-wrapper ">
-                                 <div class="comment-user" v-for="(comment,i) in articleComment" :key="i">
-                                     <p>Comment:<span v-html="comment.comments"></span></p>
-                                     <p> {{ descriptionBy }}</p>
-                                     <hr>
+                             <div class="scrolling-wrapper">
+                                 <div class="comment-user card" v-for="(list,i) in articleComment" :key="i">
+                                     <br />
+                                     <p><span v-html="list.comment"></span></p>
+                                     <p> by: {{ list.author }}</p>
+                                     <br />
                                  </div>
                              </div>
                              <hr>
+                         </div>
+                     </div>
+                     <div class="offset-md-3 col-md-8">
+                         <div v-if="showModalEdit" class="modal fade" id="modalEdit" tabindex="-1" role="dialog"
+                             aria-labelledby="modalEditLabel" aria-hidden="true">
+                             <div class="modal-dialog" role="document">
+                                 <div class="modal-content">
+                                     <div class="modal-header">
+                                         <h5 class="modal-title" id="modalEditLabel">Edit Article</h5>
+                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                         </button>
+                                     </div>
+                                     <div class="modal-body">
+                                         <form>
+                                             <div class="form-group">
+                                                 Title:
+                                                 <input class="form-control" name="title" type="text"
+                                                     v-model="titleArticle">
+                                             </div>
+                                             <div class="form-group">
+                                                 Content:
+                                                 <editor api-key="e35okpdgs5wel4anlmpc3mambugjgzs7bye50qeitpamkhgj"
+                                                     class="form-control" v-model="contentArticle"></editor>
+                                             </div>
+                                         </form>
+                                     </div>
+                                     <div class="modal-footer">
+                                         <button type="button" class="btn btn-secondary"
+                                             data-dismiss="modal">Close</button>
+                                         <button type="button" class="btn btn-success btn-block" @click="edit">Edit
+                                             Article</button>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <div v-if="showModalComment" class="modal fade" id="modalComment" tabindex="-1" role="dialog"
+                             aria-labelledby="modalCommentLabel" aria-hidden="true">
+                             <div class="modal-dialog" role="document">
+                                 <div class="modal-content">
+                                     <div class="modal-header">
+                                         <h5 class="modal-title" id="modalCommentLabel">Comment Article</h5>
+                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                         </button>
+                                     </div>
+                                     <div class="modal-body">
+                                         <form>
+                                             <div class="form-group">
+                                                 Comment:
+                                                 <editor api-key="e35okpdgs5wel4anlmpc3mambugjgzs7bye50qeitpamkhgj"
+                                                     class="form-control" v-model="newComment"></editor>
+                                             </div>
+                                         </form>
+                                     </div>
+                                     <div class="modal-footer">
+                                         <button type="button" class="btn btn-secondary"
+                                             data-dismiss="modal">Close</button>
+                                         <button class="btn btn-success" @click="comment">Submit</button>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <div class="three-inline-buttons col">
+                             <a id="show-modal" @click="showModalEdit = true" v-if="articleAutId === user.id"
+                                 type="button" class="btn col-sm-12 col-md-4 col-lg-4 col-xl-4" data-toggle="modal"
+                                 data-target="#modalEdit">Edit
+                                 Post</a>
+                             <a id="show-modal" @click="showModalComment = true" v-if="user.id !== null" type="button"
+                                 class="btn col-sm-12 col-md-4 col-lg-4 col-xl-4" data-toggle="modal"
+                                 data-target="#modalComment">Comment</a>
+                             <a v-if="articleAutId === user.id" @click="deleted" type="button"
+                                 class="btn col-sm-12 col-md-4 col-lg-4 col-xl-4">Delete Post</a><br />
                          </div>
                      </div>
                  </div>
              </div>
          </article>
-         <div>
-             <div v-if="showModalEdit">
-                 <transition name="modal">
-                     <div class="modal-mask">
-                         <div class="modal-wrapper">
-                             <div class="modal-dialog">
-                                 <div class="modal-content">
-                                     <div class="modal-header">
-                                         <button type="button" @click="showModalEdit=false">
-                                             <span aria-hidden="true">&times;</span>
-                                         </button>
-                                         <h4 class="modal-title">Edit Article</h4>
-                                     </div>
-                                     <div class="modal-body">
-                                         <div class="panel-body">
-                                             <div class="form-group">
-                                                 Title:
-                                                 <input class="form-control" placeholder=title type="text"
-                                                     v-model="titleArticle">
-                                             </div>
-                                             <div class="form-group">
-                                                 Content:
-                                                 <editor class="form-control" placeholder=content type="text"
-                                                     v-model="contentArticle"></editor>
-                                             </div>
-                                             <input class="btn btn-success" type="submit" value="Submit"
-                                                 @click="editArticle">
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </transition>
-             </div>
-             <div v-if="showModal">
-                 <transition name="modal">
-                     <div class="modal-mask">
-                         <div class="modal-wrapper">
-                             <div class="modal-dialog">
-                                 <div class="modal-content">
-                                     <div class="modal-header">
-                                         <button type="button" @click="showModal=false">
-                                             <span aria-hidden="true">&times;</span>
-                                         </button>
-                                         <h4 class="modal-title">Comment</h4>
-                                     </div>
-                                     <div class="modal-body">
-                                         <div class="card mb-4">
-                                             <div class="card-body">
-                                                 <div class="comment-user">
-                                                     <div class="form-group">
-                                                         Content:
-                                                         <editor rows="5" cols="65" v-model="newComment"></editor>
-                                                     </div>
-                                                     <button class="btn btn-success" @click="addComment">Add
-                                                         Comment</button>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </transition>
-             </div>
-             <div class="three-inline-buttons">
-                 <a id="show-modal" @click="showModalEdit = true" v-if="articleAutId === user.id" type="button"
-                     name="button" class="btn offset-md-3 col-md-9" data-toggle="modal" data-target="#modalEdit">Edit
-                     Post</a>
-                 <a id="show-modal" @click="showModal = true" type="button" name="button"
-                     class="btn offset-md-6 col-md-9" data-toggle="modal" data-target="#modalEdit">Comment</a>
-                 <a v-if="articleAutId === user.id" @click="deteleArticle" type="button" name="button"
-                     class="btn offset-md-9 col-md-9">Delete Post</a><br />
-             </div>
-         </div>
      </div>
  </template>
 
@@ -121,7 +120,7 @@
      export default {
          data() {
              return {
-                 showModal: false,
+                 showModalComment: false,
                  showModalEdit: false,
                  article: null,
                  titleArticle: '',
@@ -129,7 +128,7 @@
                  descriptionBy: '',
                  articleAutId: '',
                  articleComment: '',
-                 newComment: ''
+                 newComment: '',
              }
          },
          props: ['id'],
@@ -144,7 +143,7 @@
              ])
          },
          methods: {
-             fetchArticlesData: function () {
+             fetchArticlesData() {
                  axios({
                      method: 'get',
                      url: `https://new-dj-blog.herokuapp.com/articles/${this.id}`
@@ -159,75 +158,62 @@
                      console.log(err)
                  })
              },
-             stringDate: function (date) {
+             stringDate(date) {
                  return moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
              },
-             addComment: function () {
-                 axios.put(`https://new-dj-blog.herokuapp.com/articles/${this.id}`, {
-                     id: this.id,
-                     comments: this.newComment
-                 }).then(data => {
-                     console.log(data, '====addComment......')
-                     this.$store.dispatch('getArticles')
-                     swal(
-                         'Good job!',
-                         'Success add comment!',
-                         'success'
-                     )
-                     this.$router.push('/')
-                 }).catch(err => {
-                     console.log(err)
-                 })
+
+             comment() {
+                 let id = this.id;
+                 let comment = this.newComment;
+                 let author = this.user.username
+                 let dataComment = {
+                     id: id,
+                     comment: comment,
+                     author: author
+                 }
+                 if (this.newComment === '') {
+                     swal.fire({
+                         type: 'error',
+                         text: 'comment must be filled!'
+                     })
+                 } else {
+                     this.$store.dispatch('addComment', dataComment)
+                     this.newComment = ''
+                 }
              },
-             editArticle: function () {
+
+             edit() {
                  let payload = {
                      id: this.id,
                      title: this.titleArticle,
                      content: this.contentArticle
                  }
                  this.$store.dispatch('emitEdit', payload)
-                 this.$router.push('/')
-                 swal(
-                     'Good job!',
-                     'Success edit your article!',
-                     'success'
-                 )
              },
-             deteleArticle: function () {
-                 axios({
-                     method: 'delete',
-                     url: `https://new-dj-blog.herokuapp.com/articles/${this.id}`
-                 }).then(data => {
-                     console.log(data, '====delete.......')
-                     this.$store.dispatch('getArticles')
-                     swal({
-                         title: 'Are you sure?',
-                         text: "You won't be able to revert this!",
-                         type: 'warning',
-                         showCancelButton: true,
-                         confirmButtonColor: '#3085d6',
-                         cancelButtonColor: '#d33',
-                         confirmButtonText: 'Yes, delete it!'
-                     }).then((result) => {
-                         if (result.value) {
-                             swal(
-                                 'Deleted!',
-                                 'Your file has been deleted.',
-                                 'success'
-                             )
+             deleted() {
+                 swal.fire({
+                     title: 'Are you sure?',
+                     text: "You won to delete this!",
+                     type: 'warning',
+                     showCancelButton: true,
+                     confirmButtonColor: '#3085d6',
+                     cancelButtonColor: '#d33',
+                     confirmButtonText: 'Yes, delete it!'
+                 }).then((result) => {
+                     if (result.value) {
+                         let payload = {
+                             id: this.id,
                          }
-                     })
-                     this.$router.push('/')
-                 }).catch(err => {
-                     console.log(err)
+                         this.$store.dispatch('deleteArticle', payload);
+                     }
                  })
-             }
+             },
          },
-         created: function () {
+         created() {
              this.fetchArticlesData()
          },
          watch: {
-             id: function () {
+             id() {
                  this.fetchArticlesData()
              }
          }
@@ -236,27 +222,22 @@
 
  <style scoped>
      .three-inline-buttons .btn {
-         text-decoration: underline;
+         text-decoration: none;
          text-align: center;
-         margin-left: 30px;
-         margin-right: 15px;
-         padding: 0px 35px;
+         margin: auto;
+         padding: 0px 25px;
+     }
+
+     .three-inline-buttons .btn:hover {
+         color: black;
+         font-weight: 500;
      }
 
      .three-inline-buttons {
          display: table;
          margin-bottom: 50px;
          margin-top: 20px;
-         margin-left: 350px;
 
-     }
-
-     @media only screen and (max-width: 960px) {
-         .three-inline-buttons .button {
-             width: 100%;
-             margin: 20px;
-             text-align: center;
-         }
      }
 
      p {
@@ -268,26 +249,16 @@
 
      .scrolling-wrapper {
          overflow: auto;
-         height: 130px;
-
+         height: 225px;
      }
 
-     .modal-mask {
-         position: fixed;
-         z-index: 9998;
-         top: 0;
-         left: 0;
-         width: 100%;
-         height: 100%;
-         background-color: rgba(0, 0, 0, .5);
-         display: table;
-         transition: opacity .3s ease;
+     .card {
+         background-color: transparent;
      }
 
-     .modal-content {
-         height: 150%;
-         width: 150%;
-         position: static;
+     .card p {
+         margin: 0;
+         margin-left: 15px;
      }
 
      .modal-wrapper {
