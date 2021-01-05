@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@tinymce/tinymce-vue": "^1.0.8",
-        "axios": "^0.18.0",
+        "axios": "^0.21.1",
         "i": "^0.3.6",
         "moment": "^2.24.0",
         "sweetalert2": "^8.11.5",
